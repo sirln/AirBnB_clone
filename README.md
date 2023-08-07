@@ -1,5 +1,5 @@
-# Python - AirBnB Clone Team Project
-------------------------------------
+# Python - AirBnB Clone - The Console Team Project
+---------------------------------------------------
 
 Python - AirBnB Clone built by:
 
