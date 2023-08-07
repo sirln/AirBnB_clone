@@ -3,8 +3,8 @@
 
 Python - AirBnB Clone built by:
 
-> > * Ami Choudhary
-> > * Lawrence Siro
+> * Ami Choudhary
+> * Lawrence Siro
 
 ### Context
 ##### Welcome to the AirBnB clone project!
