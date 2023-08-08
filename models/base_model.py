@@ -16,15 +16,6 @@ class BaseModel:
         '''
         BaseModel class object instances initialization
 
-        Parameters
-        ----------
-        id : string
-            created instance unique identifier
-        created_at :string
-            records date and time of instance creation
-        updated_at : string
-            records date and time of instance creation and modification/update
-
         Methods
         -------
         save()
