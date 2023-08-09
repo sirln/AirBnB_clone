@@ -1,4 +1,4 @@
-#!/usr/bin/python3x
+#!/usr/bin/python3
 
 '''
 BaseModel Class Module
