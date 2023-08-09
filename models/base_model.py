@@ -1,34 +1,63 @@
-#!/usr/bin/python3
+#!/usr/bin/python3x
+
+'''
+BaseModel Class Module
+'''
 from uuid import uuid4
 from datetime import datetime
 
-"""Definition of a BaseModel"""
-
 
 class BaseModel:
-    """The main BaseModel for the HBnB Project"""
+    '''
+    BaseModel class
+    '''
 
     def __init__(self):
-        """Initialisation"""
+        '''
+        BaseModel class object instances initialization
+
+        Methods
+        -------
+        save()
+            updates the public instance attribute updated_at
+            with the current datetime
+        to_dict()
+            returns a dictionary containing all keys/values
+            of __dict__ of the instance
+        '''
         self.id = str(uuid4())
-        self.created_at = datetime.today()
-        self.updated_at = datetime.today()
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
 
     def __str__(self):
-        """Returns the string representation of the BaseModel
-        instance"""
-        class_name = self.__class__.__name__
-        return "[{}] ({}) {}".format(class_name, self.id, self.__dict__)
+        '''
+        overriding the __str__ method
+
+        Returns
+        -------
+        str
+            String output in the format:
+                [<class name>] (<self.id>) <self.__dict__>
+        '''
+        return (f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}")
 
     def save(self):
-        """updates the updated_at attribute with the current
-        datetime"""
-        self.updated_at = datetime.today()
+        '''
+        updating update_at attribute with the current datetime
+        '''
+        self.updated_at = datetime.now()
 
     def to_dict(self):
-        """converts an instance of a class into a dictionary"""
-        dictionary = self.__dict__.copy()
-        dictionary["__class__"] = self.__class__.__name__
-        dictionary["created_at"] = self.created_at.isoformat()
-        dictionary["updated_at"] = self.updated_at.isoformat()
-        return dictionary
+        '''
+        Get all keys/values of the object instance
+
+        Returns
+        -------
+        dict
+            a dictionary containing all keys/values of the instance
+        '''
+        new_dictionary = self.__dict__.copy()
+        new_dictionary['__class__'] = self.__class__.__name__
+        new_dictionary['created_at'] = self.created_at.isoformat()
+        new_dictionary['updated_at'] = self.updated_at.isoformat()
+        return (new_dictionary)
