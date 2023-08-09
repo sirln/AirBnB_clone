@@ -12,9 +12,16 @@ class BaseModel:
     BaseModel class
     '''
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         '''
         BaseModel class object instances initialization
+
+        Parameters
+        ----------
+        args : list
+            list of parameters for created BaseModel instance
+        kwargs : dict
+            dictionary of parameters for created BaseModel instance
 
         Methods
         -------
@@ -25,6 +32,13 @@ class BaseModel:
             returns a dictionary containing all keys/values
             of __dict__ of the instance
         '''
+        if kwargs:
+            for key, value in kwargs.items():
+                if key == 'created_at' or key == 'updated_at':
+                    value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
+                    #value = datetime.fromisoformat(value)
+                if key != '__class__':
+                    setattr(self, key, value)
         self.id = str(uuid4())
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
