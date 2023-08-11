@@ -1,11 +1,11 @@
 #!/usr/bin/python3
-
 '''
 BaseModel Class Module
 '''
+#import models
 from uuid import uuid4
 from datetime import datetime
-import models
+from models.__init__ import storage
 
 
 class BaseModel:
@@ -35,15 +35,18 @@ class BaseModel:
         '''
         if kwargs:
             for key, value in kwargs.items():
-                if key == 'created_at' or key == 'updated_at':
-                    value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
+                #if key == 'created_at' or key == 'updated_at':
+                if key in ['created_at', 'updated_at']:     # alternative way of doing it
                     #value = datetime.fromisoformat(value)
+                    value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f') # alternative way of doing it
                 if key != '__class__':
+                    # self.__dict__[key] = value    # alternative way of doing it
                     setattr(self, key, value)
-        self.id = str(uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = self.created_at
-        models.storage.new(self)
+        else:
+            self.id = str(uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
+            storage.new(self)
 
     def __str__(self):
         '''
@@ -62,7 +65,7 @@ class BaseModel:
         updating update_at attribute with the current datetime
         '''
         self.updated_at = datetime.now()
-        models.storage.save(self)
+        storage.save()
 
     def to_dict(self):
         '''
@@ -73,6 +76,7 @@ class BaseModel:
         dict
             a dictionary containing all keys/values of the instance
         '''
+        # new_dictionary = dict(self.__dict__)
         new_dictionary = self.__dict__.copy()
         new_dictionary['__class__'] = self.__class__.__name__
         new_dictionary['created_at'] = self.created_at.isoformat()
