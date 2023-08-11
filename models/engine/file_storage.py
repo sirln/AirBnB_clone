@@ -7,7 +7,7 @@ from os import path
 from models.base_model import BaseModel
 
 
-class FileStorage(BaseModel):
+class FileStorage:
     '''
     FileStorage Class to serialize an instance
     into a JSON file and deserialize JSON file
@@ -33,14 +33,6 @@ class FileStorage(BaseModel):
     '''
     __file_path= 'siso.json'
     __objects = {}
-
-#    def __init__(self):
-#        '''
-#        Instantiating an instance/object of FileStorage
-#        '''
-#        super().__init__(*args, **kwargs)
-#        dictionary = super().to_dict()
-#        __objects = dictionary['__class__'] + '.' + dictionary['id']
 
     def all(self):
         '''

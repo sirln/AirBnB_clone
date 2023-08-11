@@ -2,10 +2,8 @@
 '''
 BaseModel Class Module
 '''
-#import models
 from uuid import uuid4
 from datetime import datetime
-from models.__init__ import storage
 
 
 class BaseModel:
@@ -33,6 +31,7 @@ class BaseModel:
             returns a dictionary containing all keys/values
             of __dict__ of the instance
         '''
+        from models import storage
         if kwargs:
             for key, value in kwargs.items():
                 #if key == 'created_at' or key == 'updated_at':
@@ -64,6 +63,7 @@ class BaseModel:
         '''
         updating update_at attribute with the current datetime
         '''
+        from models import storage
         self.updated_at = datetime.now()
         storage.save()
 
