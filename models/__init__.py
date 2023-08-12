@@ -1,8 +1,9 @@
 #!/usr/bin/python3
+'''
+Module to instantiate a storage object
+'''
 
-"""Method that is used to create a unique
-FileStorage instance of our Hbnb Application"""
-from models.engine.file_storage import FileStorage
+from .engine.file_storage import FileStorage
 
 
 storage = FileStorage()

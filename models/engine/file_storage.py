@@ -1,13 +1,13 @@
 #!/usr/bin/python3
-
 '''
 FileStorage Module
 '''
-from models.base_model import BaseModel
 import json
+from os import path
+from models.base_model import BaseModel
 
 
-class FileStorage(BaseModel):
+class FileStorage:
     '''
     FileStorage Class to serialize an instance
     into a JSON file and deserialize JSON file
@@ -31,16 +31,8 @@ class FileStorage(BaseModel):
     reload()
         deserialize a JSON file into FileStorage object (__object)
     '''
-    __file_path= './siso.json'
+    __file_path= 'siso.json'
     __objects = {}
-
-    def __init__(self):
-        '''
-        Instantiating an instance/object of FileStorage
-        '''
-        super().__init__(*args, **kwargs)
-        dictionary = super().to_dict()
-        __objects = dictionary['__class__'] + '.' + dictionary['id']
 
     def all(self):
         '''
@@ -52,9 +44,8 @@ class FileStorage(BaseModel):
         dict
             returns the __object attribute
         '''
-        return self.__objects
+        return FileStorage.__objects
 
-    @new.setter
     def new(self, obj):
         '''
         Initializes an object with a key
@@ -64,18 +55,18 @@ class FileStorage(BaseModel):
         obj : dict
             set __object with obj variable
         '''
-        self.__objects[f'{type(obj).__name__}.{obj.id}'] = obj
-        # self.__objects[f'{type(obj).__name__}.{obj["id"]}'] = obj
+        key = f'{type(obj).__name__}.{obj.id}'
+        FileStorage.__objects[key] = obj
 
     def save(self):
         '''
         Serialize objects in __objects dictionary into
         the JSON file initialied in __file_path attribute
         '''
-        filename = self.__file_path
-        if self.__objects:
-            with open(filename, 'w') as file:
-                json.dump(self.__objects, file))
+        filename = FileStorage.__file_path
+        with open(filename, 'w') as file:
+            json_objects = {key: value.to_dict() for key, value in FileStorage.__objects.items()}
+            json.dump(json_objects, file)
 
     def reload(self):
         '''
@@ -83,10 +74,13 @@ class FileStorage(BaseModel):
         Otherwise, do nothing. Does not raise an exception if 
         file is not found
         '''
-        filename = self.__file_path
-        if filename:
+        filename = FileStorage.__file_path
+        if path.exists(filename):
             with open(filename, 'r') as file:
                 json_object = json.load(file)
-                for  key, value in json_object.items():
-                    del json_object['__class__']
-                    self.new()
+                for key, value in json_object.items():
+                    class_name = value['__class__']
+                    s_class = eval(class_name)
+                    new_object = s_class(**value)
+                    # new_object = eval((value['__class__'](**value)) # i.e new_object = eval(Basemodel(**value))
+                    FileStorage.__objects[key] = new_object
