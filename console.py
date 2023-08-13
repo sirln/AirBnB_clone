@@ -1,17 +1,16 @@
 #!/usr/bin/python3
 
 import cmd
-import readline
 
 
 class HBNBCommand(cmd.Cmd):
     """HBNBCommand class"""
 
-    def do_quit(self, line):
+    def do_quit(self, args):
         """Quit command to exit the program"""
         return True
 
-    def do_EOF(self, line):
+    def do_EOF(self, args):
         """EOF command to exit the program"""
         print("")
         return True 
