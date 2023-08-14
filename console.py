@@ -93,6 +93,8 @@ save the changes into the JSON file)
                 pass
         except Exception:
             print("** class doesn't exist **")
+            return
+
         class_instances = storage.all()
 #        for key in class_instances.keys():
 #            x = key.split('.')
