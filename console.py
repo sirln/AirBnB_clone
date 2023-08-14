@@ -151,27 +151,24 @@ or updating attribute save the changes into the JSON file
         if len(commands) == 3:
             print('** value missing **')
             return
-        if eval(commands[0]):
-            class_instances = storage.all()
-            key = f'{commands[0]}.{commands[1]}'
-            if key in class_instances:
-                instance = class_instances[key]
-                if hasattr(instance, commands[2]):
-                    if commands[2] not in ['id', 'created_at', 'updated_at']:
-                        attr_type = type(getattr(instance, commands[2]))
-                        casted_value = attr_type(commands[3])
-                        setattr(instance, commands[2], casted_value)
-                        storage.save()
-                    else:
-                        attr_type = type(commands[3])
-                        if attr_type in ['str', 'int', 'float']:
-                            attr_value = attr_type(commands[3])
-                            setattr(instance, commands[2], attr_value)
-                        storage.save()
-            else:
-                print('** no instance found **')
-        else:
+        try:
+            if eval(commands[0]):
+                pass
+        except Exception:
             print("** class doesn't exist **")
+            return
+
+        class_instances = storage.all()
+        key = f'{commands[0]}.{commands[1]}'
+        if key in class_instances:
+            instance = class_instances[key]
+            if commands[2] not in ['id', 'created_at', 'updated_at']:
+                attr_type = type(getattr(instance, commands[2]))
+                casted_value = attr_type(commands[3])
+                setattr(instance, commands[2], casted_value)
+                storage.save()
+        else:
+            print('** no instance found **')
 
 
 if __name__ == "__main__":
