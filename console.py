@@ -39,8 +39,8 @@ save the instance to a JSON file and prints its id
             print('** class name missing **')
             return
         try:
-            #class_name = eval(commands[0])
-            #class_inst = class_name()
+            # class_name = eval(commands[0])
+            # class_inst = class_name()
             class_inst = eval(commands[0])()
             print(f'{class_inst.id}')
             storage.save()
@@ -77,7 +77,6 @@ of an instance based on the class name and id
         else:
             print('** no instance found **')
 
-
     def do_destroy(self, args):
         '''Delete an instance based on the class name an id \
 save the changes into the JSON file)
@@ -92,7 +91,7 @@ save the changes into the JSON file)
         try:
             if eval(commands[0]):
                 pass
-        except:
+        except Exception:
             print("** class doesn't exist **")
         class_instances = storage.all()
 #        for key in class_instances.keys():
@@ -123,12 +122,12 @@ instances based or not on the class name
         try:
             if eval(commands[0]):
                 pass
-        except:
+        except Exception:
             print("** class doesn't exist **")
 
-        #instances = storage.all().values()
-        #list_instances = [str(instance) for instance in instances]
-        #print(list_instances)
+        # instances = storage.all().values()
+        # list_instances = [str(instance) for instance in instances]
+        # print(list_instances)
         for key, instance in storage.all().items():
             if commands[0] in key:
                 print(instance)
@@ -150,30 +149,6 @@ or updating attribute save the changes into the JSON file
         if len(commands) == 3:
             print('** value missing **')
             return
-#        try:
-#            if eval(commands[0]):
-#                pass
-#        except Exception:
-#            print("** class doesn't exist **")
-
-#            class_instances = storage.all()
-#            for key in class_instances.keys():
-#                x = key.split('.')
-#                inst_id = x[1]
-#                if commands[1] == inst_id:
-#                    if hasattr(class_instances[key], commands[2]):
-#                        if commands[2] not in ['id', 'created_at', 'updated_at']:
-#                            attr_type = type(getattr(class_instances[key], commands[2]))
-#                            casted_value = attr_type(commands[3])
-#                            setattr(class_instances[key], commands[2], casted_value)
-#                            storage.save()
-#                        else:
-#                            attr_type = type(commands[3])
-#                            if attr_type in ['str', 'int', 'float']:
-#                                setattr(class_instances[key], commands[2], commands[3].strip('"').strip("'"))
-#                                storage.save()
-#                else:
-#                    print('** no instance found **')
         if eval(commands[0]):
             class_instances = storage.all()
             key = f'{commands[0]}.{commands[1]}'
@@ -183,18 +158,19 @@ or updating attribute save the changes into the JSON file
                     if commands[2] not in ['id', 'created_at', 'updated_at']:
                         attr_type = type(getattr(instance, commands[2]))
                         casted_value = attr_type(commands[3])
-                        setattr(class_instances[key], commands[2], casted_value)
+                        setattr(instance, commands[2], casted_value)
                         storage.save()
                     else:
                         attr_type = type(commands[3])
                         if attr_type in ['str', 'int', 'float']:
                             attr_value = attr_type(commands[3])
-                            setattr(class_instances[key], commands[2], attr_value)
+                            setattr(instance, commands[2], attr_value)
                         storage.save()
             else:
                 print('** no instance found **')
         else:
-             print("** class doesn't exist **")
+            print("** class doesn't exist **")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
