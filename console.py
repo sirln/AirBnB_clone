@@ -160,13 +160,23 @@ or updating attribute save the changes into the JSON file
 
         class_instances = storage.all()
         key = f'{commands[0]}.{commands[1]}'
+        attr_list = ['id', 'created_at', 'updated_at']
+        allowed_data_types = ['str', 'int', 'float']
+        attr_name = commands[2]
+        attr_value = commands[3]
         if key in class_instances:
             instance = class_instances[key]
-            if commands[2] not in ['id', 'created_at', 'updated_at']:
-                attr_type = type(getattr(instance, commands[2]))
-                casted_value = attr_type(commands[3])
-                setattr(instance, commands[2], casted_value)
+            if hasattr(instance, attr_name) and attr_name not in attr_list:
+                attr_type = type(getattr(instance, attr_name))
+                casted_value = attr_type(attr_value)
+                setattr(instance, attr_name, casted_value)
                 storage.save()
+            else:
+                if type(attr_name).__name__ in allowed_data_types:
+                    if (type(attr_name).__name__) == 'str':
+                        attr_value = attr_value.strip('"').strip("'")
+                    setattr(instance, attr_name, attr_value)
+                    storage.save()
         else:
             print('** no instance found **')
 
