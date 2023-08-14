@@ -34,12 +34,15 @@ class BaseModel:
         from models import storage
         if kwargs:
             for key, value in kwargs.items():
-                #if key == 'created_at' or key == 'updated_at':
-                if key in ['created_at', 'updated_at']:     # alternative way of doing it
-                    #value = datetime.fromisoformat(value)
-                    value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f') # alternative way of doing it
+                # if key == 'created_at' or key == 'updated_at':
+                # alternative way of doing it
+                if key in ['created_at', 'updated_at']:
+                    # value = datetime.fromisoformat(value)
+                    # alternative way of doing it
+                    value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
                 if key != '__class__':
-                    # self.__dict__[key] = value    # alternative way of doing it
+                    # self.__dict__[key] = value
+                    # alternative way of doing it
                     setattr(self, key, value)
         else:
             self.id = str(uuid4())

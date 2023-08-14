@@ -14,16 +14,16 @@ class User(BaseModel):
     ----------
 
     email: str
-        This refers to the email address 
+        This refers to the email address
         of the person
     password: str
-        This refers to the password of 
+        This refers to the password of
         the person
     first_name: str
-        This refers to the person's first 
+        This refers to the person's first
         name
     last_name: str
-        This refers to the person's last 
+        This refers to the person's last
         name
 
     """

@@ -11,7 +11,7 @@ class Place(BaseModel):
     Attributes
     ----------
 
-    city_id : str 
+    city_id : str
         This refers to the City.id
     user_id: str
         This refers to the User.id
@@ -22,7 +22,7 @@ class Place(BaseModel):
         place.
     number_rooms: int
         This refers to the number of rooms the
-        place has. 
+        place has.
     number_bathrooms: int
         This refers to the number of bathrooms
         the place has.
@@ -31,7 +31,7 @@ class Place(BaseModel):
         of guests allowed at the place.
     price_by_night: int
         This refers to the price per night of
-        the place. 
+        the place.
     latitude: float
         This refers to the distance of the place
         measured (north or south) from the equator.

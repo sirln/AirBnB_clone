@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+##!/usr/bin/python3
 '''
 FileStorage Module
 '''
@@ -31,7 +31,7 @@ class FileStorage:
     reload()
         deserialize a JSON file into FileStorage object (__object)
     '''
-    __file_path= 'siso.json'
+    __file_path = 'siso.json'
     __objects = {}
 
     def all(self):
@@ -65,13 +65,14 @@ class FileStorage:
         '''
         filename = FileStorage.__file_path
         with open(filename, 'w') as file:
-            json_objects = {key: value.to_dict() for key, value in FileStorage.__objects.items()}
+            json_objects = {key: value.to_dict()
+                            for key, value in FileStorage.__objects.items()}
             json.dump(json_objects, file)
 
     def reload(self):
         '''
         Deserialize JSON file in (__file_path) class attribute.
-        Otherwise, do nothing. Does not raise an exception if 
+        Otherwise, do nothing. Does not raise an exception if
         file is not found
         '''
         filename = FileStorage.__file_path
@@ -82,5 +83,6 @@ class FileStorage:
                     class_name = value['__class__']
                     s_class = eval(class_name)
                     new_object = s_class(**value)
-                    # new_object = eval((value['__class__'](**value)) # i.e new_object = eval(Basemodel(**value))
+                    # i.e new_object = eval(Basemodel(**value))
+                    # new_object = eval((value['__class__'](**value))
                     FileStorage.__objects[key] = new_object
