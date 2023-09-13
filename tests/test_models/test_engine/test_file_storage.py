@@ -125,8 +125,8 @@ class TestFileStorage(unittest.TestCase):
 
     def test_reload_without_file(self):
         '''
-        Test for reload() method when JSON file doesn't exist.
-        Ensures no exception is raised.
+        Test for reload() method of the new FileStorage.
+        Checks that no exception is raised when calling the method.
         '''
         try:
             self.file_storage.reload()
@@ -135,6 +135,17 @@ class TestFileStorage(unittest.TestCase):
             exception_raised = True
         msg = 'An exception was raised on reloading without a file.'
         self.assertFalse(exception_raised, msg)
+
+    def test_reload_no_changes(self):
+        '''
+        Test to ensure the redefined reload method doesn't modify __objects.
+        '''
+        before_reload = self.file_storage.all().copy()
+        self.file_storage.reload()
+        after_reload = self.file_storage.all()
+
+        msg = 'The reload method modified __objects.'
+        self.assertEqual(before_reload, after_reload, msg)
 
     def tearDown(self):
         '''
