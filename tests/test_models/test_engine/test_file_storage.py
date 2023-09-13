@@ -111,9 +111,9 @@ class TestFileStorage(unittest.TestCase):
             key = f'{type(new_base_model).__name__}.{new_base_model.id}'
             self.assertIn(key, data)
 
-    def test_reload(self):
+    def test_reload_with_existing_file(self):
         '''
-        Test for reload() method
+        Test for reload() method when JSON file exists
         '''
         new_base_model = BaseModel()
         self.file_storage.new(new_base_model)
@@ -122,6 +122,19 @@ class TestFileStorage(unittest.TestCase):
         self.file_storage.reload()
         key = f'{type(new_base_model).__name__}.{new_base_model.id}'
         self.assertIn(key, self.file_storage.all())
+
+    def test_reload_without_file(self):
+        '''
+        Test for reload() method when JSON file doesn't exist.
+        Ensures no exception is raised.
+        '''
+        try:
+            self.file_storage.reload()
+            exception_raised = False
+        except Exception:
+            exception_raised = True
+        msg = 'An exception was raised on reloading without a file.'
+        self.assertFalse(exception_raised, msg)
 
     def tearDown(self):
         '''
