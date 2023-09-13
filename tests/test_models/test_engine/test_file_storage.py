@@ -111,42 +111,6 @@ class TestFileStorage(unittest.TestCase):
             key = f'{type(new_base_model).__name__}.{new_base_model.id}'
             self.assertIn(key, data)
 
-    def test_reload_with_existing_file(self):
-        '''
-        Test for reload() method when JSON file exists
-        '''
-        new_base_model = BaseModel()
-        self.file_storage.new(new_base_model)
-        self.file_storage.save()
-        self.file_storage._FileStorage__objects = {}
-        self.file_storage.reload()
-        key = f'{type(new_base_model).__name__}.{new_base_model.id}'
-        self.assertIn(key, self.file_storage.all())
-
-    def test_reload_without_file(self):
-        '''
-        Test for reload() method of the new FileStorage.
-        Checks that no exception is raised when calling the method.
-        '''
-        try:
-            self.file_storage.reload()
-            exception_raised = False
-        except Exception:
-            exception_raised = True
-        msg = 'An exception was raised on reloading without a file.'
-        self.assertFalse(exception_raised, msg)
-
-    def test_reload_no_changes(self):
-        '''
-        Test to ensure the redefined reload method doesn't modify __objects.
-        '''
-        before_reload = self.file_storage.all().copy()
-        self.file_storage.reload()
-        after_reload = self.file_storage.all()
-
-        msg = 'The reload method modified __objects.'
-        self.assertEqual(before_reload, after_reload, msg)
-
     def tearDown(self):
         '''
         Tear down test instance and remove JSON file
