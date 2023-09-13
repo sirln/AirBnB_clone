@@ -51,7 +51,9 @@ class TestBaseModel(unittest.TestCase):
 
     # ----------------------- Instantiation Testing ----------------------
     def test_base_model_init_with_kwargs(self):
-        """Tests initialization of BaseModel with kwargs."""
+        '''
+        Tests initialization of BaseModel with kwargs.
+        '''
         _id = str(uuid4())
         time = datetime.now()
         iso_time = time.isoformat()
@@ -60,6 +62,45 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(b.created_at, time)
         self.assertEqual(b.updated_at, time)
 
+    # ----------------------- Methods Testing ----------------------
+    def setUp(self):
+        '''
+        Setup test instance
+        '''
+        self.base_instance = BaseModel()
+
+    def test_save(self):
+        '''
+        Test the save() method
+        '''
+        old_updated_at = self.base_instance.updated_at
+        self.base_instance.save()
+        self.assertGreater(self.base_instance.updated_at, old_updated_at)
+
+    def test_to_dict(self):
+        '''
+        Test the to_dict() method
+        '''
+        base_dict = self.base_instance.to_dict()
+        self.assertIsInstance(base_dict, dict)
+        self.assertEqual(base_dict["__class__"], "BaseModel")
+        self.assertIsInstance(base_dict["created_at"], str)
+        self.assertIsInstance(base_dict["updated_at"], str)
+        self.assertEqual(base_dict["id"], self.base_instance.id)
+
+    def test_str(self):
+        '''
+        Test for __str__() method
+        '''
+        base_str = str(self.base_instance)
+        expected_str = f'[BaseModel] ({self.base_instance.id}) {self.base_instance.__dict__}'
+        self.assertEqual(base_str, expected_str)
+
+    def tearDown(self):
+        '''
+        Tear down test instance
+        '''
+        del self.base_instance
 
 if __name__ == '__main__':
     unittest.main()
