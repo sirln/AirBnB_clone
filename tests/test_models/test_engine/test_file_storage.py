@@ -111,14 +111,14 @@ class TestFileStorage(unittest.TestCase):
             key = f'{type(new_base_model).__name__}.{new_base_model.id}'
             self.assertIn(key, data)
 
-    def test_reload_no_file(self):
+    def test_reload_json_file_not_existing(self):
         '''
-        Test reload method with no existing file.json.
+        Test for no file found scenario
         '''
         try:
-            self.storage.reload()
-        except Exception:
-            self.fail
+            self.file_storage.reload()
+        except Exception as e:
+            self.fail(f"Test failed with exception: {e}")
 
     def tearDown(self):
         '''
