@@ -111,14 +111,35 @@ class TestFileStorage(unittest.TestCase):
             key = f'{type(new_base_model).__name__}.{new_base_model.id}'
             self.assertIn(key, data)
 
-    def test_reload_json_file_not_existing(self):
+    def test_reload(self):
         '''
-        Test for no file found scenario
+        Test for reload() method
         '''
+        # Create a new BaseModel instance, save it to the file
+        new_base_model = BaseModel()
+        self.file_storage.new(new_base_model)
+        self.file_storage.save()
+
+        # Clear the __objects dict in storage
+        self.file_storage._FileStorage__objects.clear()
+        self.assertEqual(len(self.file_storage.all()), 0)
+
+        # Reload data from the file
+        self.file_storage.reload()
+
+        # Check if object was successfully reloaded
+        key = f'{type(new_base_model).__name__}.{new_base_model.id}'
+        self.assertIn(key, self.file_storage.all())
+        self.assertIsInstance(self.file_storage.all()[key], BaseModel)
+
+        # Negative Test: removing the file and checking if reload throws any exception
+        os.remove('siso.json')
         try:
             self.file_storage.reload()
-        except Exception as e:
-            self.fail(f"Test failed with exception: {e}")
+            passed = True
+        except:
+            passed = False
+        self.assertTrue(passed, "The reload method should not raise an exception when file is missing")
 
     def tearDown(self):
         '''
