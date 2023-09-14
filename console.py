@@ -12,6 +12,15 @@ class HBNBCommand(cmd.Cmd):
        HBNBCommand class
     '''
     prompt = '(hbnb) '
+    ALLOWED_CLASSES = [
+                        "Amenity",
+                        "BaseModel",
+                        "City",
+                        "",
+                        "Review",
+                        "State",
+                        "User"
+                    ]
 
     def do_quit(self, args):
         '''Quit command to exit the program
@@ -38,6 +47,9 @@ save the instance to a JSON file and prints its id
         if not commands:
             print('** class name missing **')
             return
+        if commands[0] not in ALLOWED_CLASSES:
+            print("** class doesn't exist **")
+            return
         try:
             # class_name = eval(commands[0])
             # class_inst = class_name()
@@ -57,6 +69,9 @@ of an instance based on the class name and id
             return
         if len(commands) < 2:
             print('** instance id missing **')
+            return
+        if commands[0] not in ALLOWED_CLASSES:
+            print("** class doesn't exist **")
             return
         try:
             if eval(commands[0]):
@@ -87,6 +102,9 @@ save the changes into the JSON file)
             return
         if len(commands) < 2:
             print('** instance id missing **')
+            return
+        if commands[0] not in ALLOWED_CLASSES:
+            print("** class doesn't exist **")
             return
         try:
             if eval(commands[0]):
@@ -121,6 +139,9 @@ instances based or not on the class name
             for instance in instances:
                 print(instance)
             return
+        if commands[0] not in ALLOWED_CLASSES:
+            print("** class doesn't exist **")
+            return
         try:
             if eval(commands[0]):
                 pass
@@ -151,6 +172,9 @@ or updating attribute save the changes into the JSON file
         if len(commands) == 3:
             print('** value missing **')
             return
+        if commands[0] not in ALLOWED_CLASSES:
+            print("** class doesn't exist **")
+            return
         try:
             if eval(commands[0]):
                 pass
@@ -166,6 +190,7 @@ or updating attribute save the changes into the JSON file
         attr_value = commands[3]
         if key in class_instances:
             instance = class_instances[key]
+            ''''
             if hasattr(instance, attr_name) and attr_name not in attr_list:
                 attr_type = type(getattr(instance, attr_name))
                 casted_value = attr_type(attr_value)
@@ -177,6 +202,15 @@ or updating attribute save the changes into the JSON file
                         attr_value = attr_value.strip('"').strip("'")
                     setattr(instance, attr_name, attr_value)
                     storage.save()
+            '''
+            if hasattr(instance, attr_name):
+                attr_type = type(getattr(instance, attr_name))
+                try:
+                    casted_value = attr_type(attr_value)
+                    setattr(instance, attr_name, casted_value)
+                except ValueError:
+                    print("** value type does not match attribute type **")
+                storage.save()
         else:
             print('** no instance found **')
 
