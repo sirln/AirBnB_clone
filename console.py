@@ -47,7 +47,7 @@ save the instance to a JSON file and prints its id
         if not commands:
             print('** class name missing **')
             return
-        if commands[0] not in ALLOWED_CLASSES:
+        if commands[0] not in HBNBCommand.ALLOWED_CLASSES:
             print("** class doesn't exist **")
             return
         try:
@@ -70,7 +70,7 @@ of an instance based on the class name and id
         if len(commands) < 2:
             print('** instance id missing **')
             return
-        if commands[0] not in ALLOWED_CLASSES:
+        if commands[0] not in HBNBCommand.ALLOWED_CLASSES:
             print("** class doesn't exist **")
             return
         try:
@@ -103,7 +103,7 @@ save the changes into the JSON file)
         if len(commands) < 2:
             print('** instance id missing **')
             return
-        if commands[0] not in ALLOWED_CLASSES:
+        if commands[0] not in HBNBCommand.ALLOWED_CLASSES:
             print("** class doesn't exist **")
             return
         try:
@@ -139,7 +139,7 @@ instances based or not on the class name
             for instance in instances:
                 print(instance)
             return
-        if commands[0] not in ALLOWED_CLASSES:
+        if commands[0] not in HBNBCommand.ALLOWED_CLASSES:
             print("** class doesn't exist **")
             return
         try:
@@ -172,7 +172,7 @@ or updating attribute save the changes into the JSON file
         if len(commands) == 3:
             print('** value missing **')
             return
-        if commands[0] not in ALLOWED_CLASSES:
+        if commands[0] not in HBNBCommand.ALLOWED_CLASSES:
             print("** class doesn't exist **")
             return
         try:
