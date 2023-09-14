@@ -111,6 +111,15 @@ class TestFileStorage(unittest.TestCase):
             key = f'{type(new_base_model).__name__}.{new_base_model.id}'
             self.assertIn(key, data)
 
+    def test_reload_no_file(self):
+        '''
+        Test reload method with no existing file.json.
+        '''
+        try:
+            self.storage.reload()
+        except Exception:
+            self.fail
+
     def tearDown(self):
         '''
         Tear down test instance and remove JSON file
