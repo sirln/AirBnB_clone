@@ -50,12 +50,14 @@ save the instance to a JSON file and prints its id
         if commands[0] not in HBNBCommand.ALLOWED_CLASSES:
             print("** class doesn't exist **")
             return
-
-        # class_name = eval(commands[0])
-        # class_inst = class_name()
-        class_inst = globals()[commands[0]]()
-        print(f'{class_inst.id}')
-        storage.save()
+        try:
+            # class_name = eval(commands[0])
+            # class_inst = class_name()
+            class_inst = globals()[commands[0]]()
+            print(f'{class_inst.id}')
+            storage.save()
+        except Exception:
+            print("** class doesn't exist **")
 
     def do_show(self, args):
         '''Prints the string representation \
@@ -180,5 +182,3 @@ or updating attribute save the changes into the JSON file
             print('** no instance found **')
 
 
-if __name__ == "__main__":
-    HBNBCommand().cmdloop()
